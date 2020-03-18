@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+     {% block content1 %}
+    {% endblock %}
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Slabo+27px&display=swap" rel="stylesheet">
+  <title>SPORTS</title>
+</head>
+<body>
+ <div class="container-fluid">
+	<header>
+		<div class="nav_bar">
+            <nav class="navbar">
+                <ul class="list1">
+                    <li><a href="{% url 'home' %}">Home</a><button class="btn"><i class="fa fa-home"></i></button></li>
+                    <hr>
+                    <li><a href="#">About Us</a><button class="btn"><i class="fa fa-users"></i></button></li>
+                    <hr>
+                    <li><a href="#">Bookings</a><button class="btn"><i class="fa fa-pencil-square-o"></i></button></li>
+                    <hr>
+                    <li><a href="#">Enroll</a><button class="btn"><i class="fa fa-user-plus"></i></button></li>
+                    <hr>
+                    <li><a href="#">Schedules</a><button class="btn"><i class="far fa-calendar-alt"></i></button></li>
+                    <hr>
+                    <li><a href="#">Contact Us</a><button class="btn"><i class="fas fa-phone"></i></button></li>
+                </ul>
+                {% if user.is_authenticated%}
+                <ul class="list2">
+                    <li><a href="#">Profile</a><button class="btn"><i class="fas fa-user-circle"></i></button></li>
+                    <hr>
+                    <li><a href="#">Logout</a><button class="btn"><i class="fa fa-user-plus"></i></button></li>
+                </ul>
+                {%else%}
+                <ul class="list2">
+                    <li><a href="{% url 'login' %}">Login</a><button class="btn"><i class="	fas fa-user-circle"></i></button></li>
+                    <hr>
+                    <li><a href="{% url 'signup' %}">Sign Up</a><button class="btn"><i class="fa fa-user-plus"></i></button></li>
+                </ul>
+                {% endif %}
+            </nav>
+          </div>
+    </header>
+
+ </div>
+
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>
