@@ -1,0 +1,117 @@
+{% extends "app1/base.html" %}
+{% load static %}
+{% block content1 %}
+	<link rel="stylesheet" type="text/css" href="{% static 'enroll.css' %}">
+ 	<script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+	<script src="http://malsup.github.com/jquery.form.js"></script>
+{% endblock content1%}
+{% block content %}
+<script type="text/javascript">
+	$(document).ready(function() {
+
+          $('.button').click(function(){
+    var catid;
+    catid = $(this).attr("id");
+     $.ajax('/enroll/', {selected_game: catid}, function(data){
+               $('#coach').html(data);
+           });
+});
+
+});
+</script>
+  <div class="image">
+	  <div class="modal fade" id="myModal">
+		  <div class="modal-dialog" style="max-width: 650px!important;" role="document" >
+	<div class="modal-content">
+<form method="post" id="enroll-class">
+    {% csrf_token %}
+<!-- Modal Header -->
+        <div class="modal-header">
+          <h4 style="margin:auto" class="modal-title">ENROLLMENT FORM</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="register">
+          	<form  method="post" id="register" action="">
+				{% csrf_token %}
+          		<label> FIRST NAME </label><br>
+          		<input type="text" name="fname" id="fname" placeholder="Enter Your First Name " required> <br><br>
+          		<label> LAST NAME </label><br>
+          		<input type="text" name="lname" id="lname" placeholder="Enter Your Last Name " required> <br><br>
+				<label> AGE </label><br>
+          		<input type="number" name="age" id="age" placeholder="Enter Your Age " required> <br><br>
+          		<label> MOBILE NUMBER </label><br>
+          		<select id="ph">
+          			<option>+91</option>
+          			<option>+92</option>
+          			<option>+93</option>
+          			<option>+94</option>
+          			<option>+95</option>
+          		</select>
+          		<input type="number" name="Mnum" id="num" placeholder="Enter Your Mobile Number " required><br><br>
+				<label> GENDER :</label><br>
+          		<input type="radio" name="gender" id="male"><span id="male1">&nbsp;MALE</span>&nbsp;&nbsp;
+          		<input type="radio" name="gender" id="female"><span id="female1">&nbsp;FEMALE</span>&nbsp;&nbsp;
+          		<input type="radio" name="gender" id="others"><span id="others1">&nbsp;OTHER</span>&nbsp;&nbsp;<br><br>
+          		<label> AVAILABLE CLASSES </label><br>
+				<div class="list-group" id="coach">
+					{% for each_class in classes.coaching_set.all %}
+
+						<a href="#" class="list-group-item list-group-item-action" data-toggle="tab">U-{{ each_class.age }}</a>
+
+					{% endfor %}
+				</div>
+          		<br><br>
+          		<label> TIMINGS :</label><br>
+          		<input type="time" id="appt" name="appt"min="09:00" max="18:00" required><br><br>
+				<input class="sbutton" type="submit" value="Submit"id="sub" style="margin:auto">
+          	</form>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+</form>
+	</div>
+	  </div>
+  </div>
+	  </div>
+			<br>
+			<h3 style="color:#E60E7D; margin: auto;" class="text-center" >GET ENROLLED FOR YOUR FAVOURITE SPORT</h3>
+				<br><br><br>
+			<div class="container-fluid">
+				<div class="row">
+	  {% for each_game in games %}
+	  		<div class="col-sm-4">
+	  			<div class="flip-box">
+				  <div class="flip-box-inner">
+				    	<div class="flip-box-front">
+
+				    			<img src="C:\Users\91968\Desktop\footbal.jpg" alt="Paris" style="width:300px;height:300px;">
+				      			<br><br>
+				      			<h3 style="color:white;">{{ each_game.game_name }}</h3>
+
+
+				      	</div>
+
+				    	<div class="flip-box-back">
+				      		<h4 style="color:#E60E7D;"><br>GET ENROLLED FOR BEST {{ each_game.game_name }} CLASSES</h4>
+				      		<br><br>
+							<form method="get">
+							<p><button type="button" id="{{ each_game.id }}" name="selected_game" class="button" data-toggle="modal" data-target="#myModal" value="{{ each_game.id }}" >ENROLL</button></p>
+							</form>
+				    	</div>
+				  </div>
+				</div>
+
+	  		</div>
+	  {% endfor %}
+		</div>
+		</div>
+	</div>
+{% endblock content %}
+  </div>

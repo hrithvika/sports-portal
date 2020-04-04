@@ -1,0 +1,20 @@
+{% extends "app1/base.html" %}
+{% load static %}
+{%block content1%}
+	<link rel="stylesheet" type="text/css" href="{% static 'game.css' %}">
+{%endblock content1%}
+{% block content %}
+     <main>
+
+        <div class="bookdirect">
+            <h3>Already have a team?  Book your ground here!</h3>
+            <a href="book.html"><button style="font-weight: 700" id="bookfont">BOOK</button></a>
+            <br><br><br>
+            <p>Don't have a team yet? Select any one!</p>
+            <a href="create.html"><button id="createTeam"  style="font-weight: 700">CREATE TEAM</button></a>
+            <a href="join.html"><button id="joinTeam"  style="font-weight: 700">JOIN TEAM</button></a>
+
+        </div>
+
+    </main>
+{% endblock content %}

@@ -1,0 +1,20 @@
+{% extends "app1/base.html" %}
+{% load static %}
+{%block content1%}
+	<link rel="stylesheet" type="text/css" href="{% static 'stylebookings.css' %}">
+{%endblock content1%}
+{% block content %}
+    <div>
+        <h3 class="sportHeading">Select a sport:</h3>
+    </div>
+
+    <div class="cards">
+    {% for each_game in games %}
+        <div class="card">
+            <img src= 'images/foot.jpg'/>
+            <h3><a href="{% url 'book-game' each_game.id %}">{{ each_game.game_name }}</a></h3>
+        </div>
+    {% endfor %}
+    <div style = "margin-top: 100px"></div>
+    </div>
+{% endblock content %}

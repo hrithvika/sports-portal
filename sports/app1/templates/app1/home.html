@@ -1,10 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>HOME PAGE!</h1>
-</body>
-</html>
+{% extends "app1/base.html" %}
+{% load static %}
+{% block content1 %}
+	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+{% endblock content1%}
+{% block content %}
+    <section>
+        <main>
+                <img id="img1" src="images/sport3.svg">
+                <h1 class="heading">All in one <div id="font"><b>sports platform</b></div></h1>
+                <br><br><br>
+                <p class="p1">Do you need to make bookings for a turf, basketball court, badminton court, etc but
+                    need to walk down to your nearby sports academy to do so?
+                    <br><br>
+                    Or do you want to enroll for some sports activity but feel no need to step out
+                    of your house for such a small task? Well, worry not!
+                    <br>
+                </p>
+
+                <div class="container">
+                    <img id="img2" src="images/sport4.svg">
+                    <p class="p2">
+                        <br>
+                        We are here to save your time!
+                        <br><br>
+                        Enroll for your favourite sports
+                        activity through our website and make bookings as per your need
+                        according to the time slots provided.
+
+
+
+                    </p>
+                </div>
+
+                <!-- <div>
+                    <p class="p3">Easy, right?
+                        <br><br>
+                        All you need to do is sign up by clicking the button below,
+                        or login(if you are already signed up)!
+                    </p>
+                    <br>
+
+                    <div class="btn">
+                        <button>Login</button>
+                        <button>Sign Up</button>
+                    </div> -->
+                    <!-- <button type="button" class="btn btn-dark">Login</button>
+                    <button type="button" class="btn btn-dark">Sign Up</button> -->
+
+                </div>
+
+
+        </main>
+
+    </section>
+
+
+    <footer>
+        <div style="margin-top: 100px;"></div>
+        <p class="cp-text">
+            © Copyright 2020 | Sports Portal | All rights reserved
+        </p>
+
+    </footer>
+{% endblock content%}
