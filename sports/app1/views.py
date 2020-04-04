@@ -1,9 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from .models import *
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .forms import *
 from datetime import date
+from django.views.generic import ListView
+from django.http import HttpResponseRedirect, HttpResponse
 
 
 def calculate_age(birth_date):
@@ -26,7 +29,7 @@ def register(request):
         day = int(request.POST.get('day'))
         user.profile.age = calculate_age(date(year, month, day))
         user.save()
-        return redirect(request, 'app1/home.html')
+        return redirect('/home/')
     return render(request, 'app1/signup.html')
 
 
@@ -36,18 +39,58 @@ def login(request):
         password = request.POST.get('password')
         user = authenticate(username=user, password=password)
         if user is not None:
-            return redirect('app1/home.html')
+            return redirect('/home/')
         else:
-            return redirect('app1/login.html')
+            messages.error(request, f'Invalid login credentials!')
+            return redirect('/login/')
     else:
         return render(request, 'app1/login.html')
 
 
-def booking(request, game_id):
-    game = Coaching.objects.get(pk=game_id)
+def booking(request):
+    game = Game.objects.all()
     template = 'app1/bookings.html'
-    context = {'game': game}
+    context = {'games': game}
     return render(request, template, context)
+
+
+def book_game(request, game_id):
+    book = Game.objects.get(pk=game_id)
+    template = 'app1/game.html'
+    context = {'book_game': book}
+    return render(request, template, context)
+
+
+'''  user = request.user
+    if request.method == "POST":
+        enrolled_class = UserCoaching()
+        enrolled_class.firstname = request.POST.get('fname')
+        enrolled_class.lastname = request.POST.get('lname')
+        age = request.POST.get('age')
+        enrolled_class.gender = request.POST.get('gender')
+        user.classes = enrolled_class
+        user.save()
+        return render(request, template, context)
+    else:'''
+
+
+def enroll_game(request, game_id):
+    classes = Game.objects.get(pk=game_id)
+    return HttpResponse(classes)
+
+
+class GameListView(ListView):
+    model = Game
+    template_name = 'app1/enroll.html'
+
+    def get(self, request):
+        games = Game.objects.all()
+        classes = None
+        if request.method == 'GET':
+            for game in games:
+                if request.GET.get('selected_game') == game.pk:
+                    classes = Game.objects.get(pk=int(game.pk))
+        return render(request, self.template_name, {'games': games, 'classes': classes})
 
 
 def ad(request):
