@@ -1,0 +1,46 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+main{
+    margin: 20px;
+}
+
+h3{
+    margin-top: 100px;
+    margin-left: 250px;
+    font-weight: 50;
+
+}
+
+.bookdirect{
+    font-family: 'Slabo 27px', serif;
+    font-size: 30px;
+    font-weight: 90;
+    font-style: inherit;
+
+}
+
+button{
+    margin-left: 320px;
+    position: relative;
+    margin-top: 30px;
+    padding: 20px 50px;
+    background-color: white;
+    border-color: black;
+    border-radius: 25px;
+    cursor: pointer;
+
+}
+#bookfont{
+    margin-left: 550px;
+}
+
+button:hover{
+    text-decoration: underline;
+}
+
+p{
+    margin-left: 50px;
+}

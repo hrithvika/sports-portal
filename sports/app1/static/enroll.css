@@ -1,0 +1,98 @@
+.container
+  	{
+   		font-family: 'Roboto Condensed', Alegreya SC;
+  		color:white;
+  		font-size: 20px;
+	}
+
+	.container-fluid
+	{
+	}
+
+	body {
+  font-family: Arial, Helvetica, Alegreya SC;
+}
+
+.image {
+  background-image: url("background.jpg");
+
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.flip-box {
+  background-color: transparent;
+  width: 300px;
+  height: 300px;
+  border: 0px ;
+  perspective: 1000px;
+  margin-left: 20px;
+}
+
+.flip-box-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flip-box:hover .flip-box-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-box-front, .flip-box-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flip-box-front {
+  background-color: #bbb;
+  color: black;
+}
+
+.flip-box-back {
+  background-color:black;
+  color: black;
+  transform: rotateY(180deg);
+  border: 5px double #E11379;
+}
+
+.button {
+  background-color: #E60E7D;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+
+  font-size: 16px;
+  margin: 4px 2px;
+
+}
+
+h3 {
+  background: -webkit-linear-gradient(#F707AE, #010316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: Alegreya SC;
+}
+
+h4 {
+  background: -webkit-linear-gradient(#DE4E92, #F69AC6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.button:hover
+{
+	background-color: #45C504;
+	color:white;
+}
+
