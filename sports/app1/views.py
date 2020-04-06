@@ -6,7 +6,7 @@ from django.contrib import messages
 from .forms import *
 from datetime import date
 from django.views.generic import ListView
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import JsonResponse, HttpResponse
 
 
 def calculate_age(birth_date):
@@ -75,8 +75,9 @@ def book_game(request, game_id):
 
 
 def enroll_game(request, game_id):
-    classes = Game.objects.get(pk=game_id)
-    return HttpResponse(classes)
+    classes = Coaching.objects.filter(games__id=game_id).values('age')
+    classes_list = list(classes)
+    return JsonResponse(classes_list, safe=False)
 
 
 class GameListView(ListView):

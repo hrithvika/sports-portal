@@ -11,7 +11,7 @@ class Game(models.Model):
 
 
 class Coaching(models.Model):
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    games = models.ForeignKey(Game, on_delete=models.CASCADE)
     time = models.DurationField()
     age = models.IntegerField(default=0)
     days_a_week = models.IntegerField(default=1)
