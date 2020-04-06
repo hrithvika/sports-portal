@@ -6,19 +6,6 @@
 	<script src="http://malsup.github.com/jquery.form.js"></script>
 {% endblock content1%}
 {% block content %}
-<script type="text/javascript">
-	$(document).ready(function() {
-
-          $('.button').click(function(){
-    var catid;
-    catid = $(this).attr("id");
-     $.ajax('/enroll/', {selected_game: catid}, function(data){
-               $('#coach').html(data);
-           });
-});
-
-});
-</script>
   <div class="image">
 	  <div class="modal fade" id="myModal">
 		  <div class="modal-dialog" style="max-width: 650px!important;" role="document" >
@@ -59,7 +46,7 @@
 				<div class="list-group" id="coach">
 					{% for each_class in classes.coaching_set.all %}
 
-						<a href="#" class="list-group-item list-group-item-action" data-toggle="tab">U-{{ each_class.age }}</a>
+						<a href="#" id="class{{forloop.counter}}" class="list-group-item list-group-item-action" data-toggle="tab">U-{{ each_class.age }}</a>
 
 					{% endfor %}
 				</div>
@@ -102,11 +89,18 @@
 				      		<h4 style="color:#E60E7D;"><br>GET ENROLLED FOR BEST {{ each_game.game_name }} CLASSES</h4>
 				      		<br><br>
 							<form method="get">
-							<p><button type="button" id="{{ each_game.id }}" name="selected_game" class="button" data-toggle="modal" data-target="#myModal" value="{{ each_game.id }}" >ENROLL</button></p>
+							<p><button type="button" name="selected_game" class="button" data-toggle="modal" data-target="#myModal" value="{{ each_game.id }}" >ENROLL</button></p>
 							</form>
 				    	</div>
 				  </div>
 				</div>
+				<script>
+					fetch('{% url 'enroll-class' each_game.id %}').then(response => {
+					return response.json();
+					 }).then(data => { console.log(data);
+					  document.getElementById('class'+'{{ each_game.id }}').innerHTML = "U - " + data;
+					  });
+				</script>
 
 	  		</div>
 	  {% endfor %}
