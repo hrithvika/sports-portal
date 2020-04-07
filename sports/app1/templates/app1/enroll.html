@@ -4,6 +4,8 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'enroll.css' %}">
  	<script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
 	<script src="http://malsup.github.com/jquery.form.js"></script>
+	<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
 {% endblock content1%}
 {% block content %}
   <div class="image">
@@ -44,11 +46,11 @@
           		<input type="radio" name="gender" id="others"><span id="others1">&nbsp;OTHER</span>&nbsp;&nbsp;<br><br>
           		<label> AVAILABLE CLASSES </label><br>
 				<div class="list-group" id="coach">
-					{% for each_class in classes.coaching_set.all %}
+					<!--{% for each_class in classes.coaching_set.all %}-->
 
 						<a href="#" id="class{{forloop.counter}}" class="list-group-item list-group-item-action" data-toggle="tab">U-{{ each_class.age }}</a>
 
-					{% endfor %}
+					<!--{% endfor %}-->
 				</div>
           		<br><br>
           		<label> TIMINGS :</label><br>
@@ -78,7 +80,7 @@
 				  <div class="flip-box-inner">
 				    	<div class="flip-box-front">
 
-				    			<img src="C:\Users\91968\Desktop\footbal.jpg" alt="Paris" style="width:300px;height:300px;">
+				    			<img src="#" alt="Paris" style="width:300px;height:300px;">
 				      			<br><br>
 				      			<h3 style="color:white;">{{ each_game.game_name }}</h3>
 
@@ -89,16 +91,22 @@
 				      		<h4 style="color:#E60E7D;"><br>GET ENROLLED FOR BEST {{ each_game.game_name }} CLASSES</h4>
 				      		<br><br>
 							<form method="get">
-							<p><button type="button" name="selected_game" class="button" data-toggle="modal" data-target="#myModal" value="{{ each_game.id }}" >ENROLL</button></p>
+							<p><button type="button" id="coach{{forloop.counter}}" name="selected_game" class="button" data-toggle="modal" data-target="#myModal" value="{{ each_game.id }}" >ENROLL</button></p>
 							</form>
 				    	</div>
 				  </div>
 				</div>
 				<script>
+					$(document).ready (function(){
 					fetch('{% url 'enroll-class' each_game.id %}').then(response => {
 					return response.json();
 					 }).then(data => { console.log(data);
-					  document.getElementById('class'+'{{ each_game.id }}').innerHTML = "U - " + data;
+					 $("#myModal").load(function(){
+					  var x = document.getElementById('class'+'{{ each_game.id }}');
+					  for(i=0;i<data.length;i++)
+					  	x.textContent = "U - " + data[i].age;
+					  });
+					  });
 					  });
 				</script>
 
@@ -106,6 +114,4 @@
 	  {% endfor %}
 		</div>
 		</div>
-	</div>
 {% endblock content %}
-  </div>
