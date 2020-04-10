@@ -20,7 +20,7 @@ class Coaching(models.Model):
     fees = models.FloatField(default=300)
 
     def __str__(self):
-        return f'{self.game.game_name} Coaching'
+        return f'{self.games.game_name} Coaching'
 
 
 class UserCoaching(models.Model):
@@ -34,14 +34,14 @@ class UserCoaching(models.Model):
 
 
 class Booking(models.Model):
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    games = models.ForeignKey(Game, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=False)
     time = models.DurationField()
     price = models.FloatField(default=300)
     team_present = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.game}'
+        return f'{self.games}'
 
 
 class Profile(models.Model):
@@ -61,5 +61,6 @@ class Profile(models.Model):
 
 class Team(models.Model):
     team_members = models.ManyToManyField(Profile)
+    team_name = models.CharField(max_length=100, null=True)
     team_leader = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='team-leader+')
-    booking = models.ManyToManyField(Booking)
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, null=True)

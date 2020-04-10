@@ -55,9 +55,36 @@ def booking(request):
 
 
 def book_game(request, game_id):
-    book = Game.objects.get(pk=game_id)
+    booked_game = Game.objects.get(id=game_id)
+    teams = Team.objects.filter(booking__games=booked_game)
+    profiles = Profile.objects.all()
     template = 'app1/game.html'
-    context = {'book_game': book}
+    members = None
+    if request.method == 'POST':
+        if 'join' in request.POST:
+            profile = Profile.objects.get(user=request.user)
+            team_id = request.POST.get("join-team")
+            team = Team.objects.get(id=team_id)
+            join_team = team.booking
+            profile.bookings.add(join_team)
+            profile.save()
+        elif request.POST.get("create"):
+            new_team = Team()
+            team_leader = request.POST.get("name")
+            team_leader = Profile.objects.get(username=team_leader)
+            new_team.team_leader = team_leader
+            new_team.team_name = request.POST.get("team-name")
+            players = request.POST.getlist('team-players')
+            for player in players:
+                play = Profile.objects.get(id=player)
+                new_team.team_members.add(play)
+            members = new_team.team_members
+            book = Booking()
+            book.games = booked_game
+            book.save()
+            new_team.booking = book
+            new_team.save()
+    context = {'booked_game': booked_game, 'teams': teams, 'profiles': profiles, 'members': members}
     return render(request, template, context)
 
 
@@ -99,7 +126,7 @@ def ad(request):
     ad = request.POST.get('advertisement ')
     return render(request, template)
 
-
+'''
 @login_required
 def profile(request):
     if request.method == "POST":
@@ -111,10 +138,16 @@ def profile(request):
 
     context = {'u_form': u_form, 'p_form': p_form}
     template = 'app1/profile.html'
-    return render(request, template, context)
+    return render(request, template, context)'''
 
 
 def home(request):
     template = 'app1/home.html'
     return render(request, template)
 
+
+def profile(request):
+    profile = Profile.objects.get(user=request.user)
+    template = 'app1/profile.html'
+    context = {'profile': profile}
+    return render(request, template, context)
