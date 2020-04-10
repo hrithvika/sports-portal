@@ -1,20 +1,167 @@
 {% extends "app1/base.html" %}
 {% load static %}
 {%block content1%}
-	<link rel="stylesheet" type="text/css" href="{% static 'game.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'game.css' %}" xmlns="http://www.w3.org/1999/html">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Slabo+27px&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
 {%endblock content1%}
 {% block content %}
-     <main>
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
 
-        <div class="bookdirect">
-            <h3>Already have a team?  Book your ground here!</h3>
-            <a href="book.html"><button style="font-weight: 700" id="bookfont">BOOK</button></a>
-            <br><br><br>
-            <p>Don't have a team yet? Select any one!</p>
-            <a href="create.html"><button id="createTeam"  style="font-weight: 700">CREATE TEAM</button></a>
-            <a href="join.html"><button id="joinTeam"  style="font-weight: 700">JOIN TEAM</button></a>
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Team</h4>
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Captain name: <span id="captain"></span><br></p>
+                            <p>Date of match: <span id="date"></span><br></p>
+                            <p>Timings of match: <span id="time"></span><br></p>
+                        </div>
+                        <div class="modal-footer">
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="join" class="btn1" onclick="alert('You have joined the team!')">Join</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </form>
+                        </div>
+                    </div>
 
-        </div>
+                </div>
+            </div>
+            <div class="split left">
+                <div class="centered">
+                    <h2 class="line">Don't have a team yet? Create one!</h2>
+                    <br />
+                    <div id="disp1" style="display:none" >
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                            <label for="name">Enter name: </label>
+                            <input type="text" class="form-control" id="name" placeholder="Your name" name="name" required><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="team">Enter team-name: </label>
+                            <input type="text" class="form-control" id="team-name" placeholder="Your team name" name="team-name" required><br>
+                        </div>
+                        <div class="form-group">
 
-    </main>
+                        <label class="required" for="id_user">User:</label>
+                           <div id="team-players" class="form-check list-inline list-group btn-group" role="group" data-toggle="buttons" style="overflow:scroll;">
+                               {% for profile in profiles %}
+                        <label class="btn btn-light">
+                            <input type="checkbox" id="{{profile.id}}" value="{{ profile.user.username }}" class="form-check list-group-item">{{ profile.user.username }}
+                        </label>
+
+                        {% endfor %}
+                           </div>
+
+                       <!--     <div class="related-widget-wrapper">
+                                <div class="list-group" style="overflow: scroll;">
+                                    <div class="selectpicker show-tick">
+                                {% for profile in profiles %}
+                            <a name="create-team" value="{{ profile_id }}" class="list-group-item list-group-item-action "
+                               style="color: black; text-align: left; "
+                               data-toggle="tab">
+
+                            {{ profile.user.username }}
+                            </a>
+                                {% endfor %}
+                                </div>
+                                </div>
+                    <a class="related-widget-wrapper-link add-related" id="add_id_user"
+                        href="/admin/auth/user/add/?_to_field=id&amp;_popup=1"
+                        title="Add another user"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a>
+
+
+                        "alert('You have created a team! Wish you luck Captain!!')"
+                        -->
+
+                        <button type="button" id="create" class="btnc" name="create" onclick="showDiv2()">Create</button>
+                        <button type="button" class="cancel" onclick="closeTeam()">Close</button>
+                        </div>
+                        </form>
+                    </div>
+
+                    <div id="disp2" style="display:none;" >
+                        <div class="list-group lists">
+                            <br />
+                           <!-- {% for member in members_set.all %}-->
+                            <a name="join-team" id="selected-players" value="{{ team.id }}" class="list-group-item list-group-item-action" >
+                           <!-- {{ member.user.username }}-->
+                            </a>
+                           <!-- {% endfor %}-->
+                        </div>
+                        <button
+                            class="btn btn-primary"
+                            id="Book"
+                            style="padding:5px;"
+                            type="button"
+                        >
+                            Book</button
+                        ><br /><br>
+                    </div>
+
+                    <input
+                        type="button"
+                        id="createTeam"
+                        name="create"
+                        style="font-weight: 700"
+                        value="CREATE"
+                        onclick="showDiv1()"
+                    />
+                </div>
+            </div>
+
+
+            <div class="split right">
+                <div class="centered">
+                    <h2>Want to join an existing team?</h2>
+                    <br />
+                    <div id="disp" style="display:none;" >
+                        <div class="list-group lists">
+                            <p>
+                                Following are the registered teams, please select
+                                one:
+                            </p>
+                            <div class="search-container">
+                                <form action="#">
+                                  <input type="text" placeholder="Search.." name="search">
+                                  <button type="submit"><i class="fa fa-search"></i></button>
+                                </form>
+                            </div>
+                            <br />
+                            {% for team in teams %}
+                            <a name="join-team" value="{{ team.id }}" data-id="{{ team.team_leader.user.username }}" data-id1="{{ team.booking.date }}" data-id2="{{ team.booking.time }}" class="list-group-item list-group-item-action" data-toggle="tab">
+
+                            {{ team.team_leader.user.username }}
+                            </a>
+                            {% endfor %}
+                        </div>
+                        <button
+                            class="btn btn-primary"
+                            id="Done"
+                            style="padding:5px;"
+                            type="button"
+                            data-target="#myModal"
+                            data-toggle="modal"
+                        >
+                            Done</button
+                        ><br /><br>
+                    </div>
+                    <input
+                        type="button"
+                        id="joinTeam"
+                        name="answer"
+                        style="font-weight: 700"
+                        value="JOIN"
+                        onclick="showDiv()"
+                    />
+                </div>
+            </div>
+        <script src="/static/script_foot.js/"></script>
 {% endblock content %}

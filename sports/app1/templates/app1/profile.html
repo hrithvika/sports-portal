@@ -1,10 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "app1/base.html" %}
+{% load static %}
+{% block content1 %}
+	<link rel="stylesheet" type="text/css" href="{% static 'profile.css' %}">
+ 	<script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+	<script src="http://malsup.github.com/jquery.form.js"></script>
+	<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+{% endblock content1%}
 
-</body>
-</html>
+{% block content %}
+    <div class="wrapper">
+			<div class="one">
+
+				<div class="one1">
+					<div class="one3"></div>
+					<div class="one4"></div>
+				</div>
+				<div class="one2">
+
+				</div>
+			</div>
+			<div class="two">
+				<div class="two1"></div>
+				<div class="two2"></div>
+			</div>
+			<div class="three">
+
+				<div class="three1">
+
+					<div class="one3">
+
+
+						<div class="one5"></div>
+						<div class="one6">
+							<img src="utri5.png" height="155" />
+						</div>
+
+					</div>
+					<div class="one4">
+
+						<div class="upp"></div>
+					</div>
+				</div>
+				<div class="three2">
+					<img src="tri2.png" height="155"/>
+
+					<div class="one5"></div>
+					<div class="one7"></div>
+				</div>
+			</div>
+			<div class="four">
+
+			</div>
+			<div class="five">
+				<div class="five1"></div>
+				<div class="five2">
+					<div class="wq">
+						<div class="te">Name Surname</div>
+						<span class="re">{{ profile.user.username }}</span>
+						<div class="te">Age</div>
+						<span class="re">{{ profile.age }}</span>
+						<div class="te">Contact No.</div>
+						<span class="re">{{ profile.phone_no }}</span>
+						<div class="te">Address</div>
+						<span class="re">{{ profile.address }}</span>
+						<div class="te">Enrolled Classes</div>
+						<table>
+							{% for each_class in profile.classes.all %}
+							  <tr>
+							    <td>{{ each_class.enrolled_for.games.game_name }}</td>
+							    <td style="font-size:10px"><em>{{ each_class.enrolled_for.days_a_week }} days/week</em></td>
+							    <td style="font-size:10px"><em>24th Jan,2019</em></td>
+							  </tr>
+							{% endfor %}
+						</table>
+						<div class="te">Bookings</div>
+						<table>
+							{% for booking in profile.bookings.all %}
+							  <tr>
+							    <td>{{ booking.games.game_name }}</td>
+							    <td style="font-size:10px"><em>{{ booking.date }}</em></td>
+							  </tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+{% endblock content %}
